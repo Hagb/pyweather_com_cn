@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "pyweather_com_cn"
+name = "weather_com_cn"
 version = "0.1.0"
 description = "爬取 weather.com.cn 上天气预报及气象预警的 python 库"
 authors = ["Hagb (郭俊余) <hagb_green@qq.com>"]
