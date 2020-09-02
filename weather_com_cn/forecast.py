@@ -72,6 +72,20 @@ class WeatherCrawler():
                     return m
         return min(n + 1, m)
 
+    @classmethod
+    def filterWeathers(cls,
+                       weathers: Iterable[Weather],
+                       districts_included: Optional[Union[dict, list]] = None,
+                       districts_excluded: Union[dict, list] = {},
+                       dates_included: Optional[Iterable[date]] = None,
+                       dates_excluded: Iterable[date] = {}) -> List[Weather]:
+        return [
+            w for w in weathers if
+            not cls._isDateUnmatch(w.date, dates_included, dates_excluded) and
+            not cls._isDistrictUnmatch([w.province, w.city, w.district],
+                                       districts_included, districts_excluded)
+        ]
+
     @staticmethod
     def _isDateUnmatch(date_: date,
                        dates_included: Optional[Iterable[date]] = None,
