@@ -5,10 +5,10 @@ from .model import Alarm, AlarmLevel, AlarmKind, AlarmDetail
 import ast
 from bidict import bidict
 import json
-__all__ = ('WeatherAlarm')
+__all__ = ('AlarmCrawler')
 
 
-class WeatherAlarm():
+class AlarmCrawler():
     "气象预警爬虫"
     url: str = 'https://product.weather.com.cn/alarm/grepalarm_cn.php'
     session: Session
@@ -84,25 +84,5 @@ class WeatherAlarm():
         return ast.literal_eval(
             info[1] if info[1][-1] != ';' else info[1][:-1])
 
-    def getProvincesIDs(self) -> Dict[str, int]:
-        resp: Response = self.session.get(
-            'http://www.weather.com.cn/data/city3jdata/china.html')
-        resp.encoding = resp.apparent_encoding
-        ids_dict: dict = json.loads(resp.text)
-        return {ids_dict[i]: int(i) for i in ids_dict}
-
-    def getCitiesIDs(self, province_id: int) -> Dict[str, int]:
-        resp: Response = self.session.get(
-            f'http://www.weather.com.cn/data/city3jdata/provshi/{province_id}.html'
-        )
-        resp.encoding = resp.apparent_encoding
-        ids_dict: dict = json.loads(resp.text)
-        return {ids_dict[i]: int(str(province_id) + i) for i in ids_dict}
-
-    def getDistrictsIDs(self, city_id: int) -> Dict[str, int]:
-        resp: Response = self.session.get(
-            f'http://www.weather.com.cn/data/city3jdata/station/{city_id}.html'
-        )
-        resp.encoding = resp.apparent_encoding
-        ids_dict: dict = json.loads(resp.text)
-        return {ids_dict[i]: int(str(city_id) + i) for i in ids_dict}
+    def getSession(self) -> Session:
+        return self.session

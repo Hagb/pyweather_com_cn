@@ -246,3 +246,6 @@ class WeatherCrawler():
                                     if day_weather else None,
                                     temp_min=int(tds[6].text)))
         return weathers
+
+    def getSession(self) -> Session:
+        return self.session
